@@ -24,13 +24,15 @@ function fetchCSVData(url) {
   }
 
 
-  function createPagination(totalPages, currentPage) {
+  function createPagination(totalPages, currentPage, table, data, limit) {
     const pagination = document.createElement('ul');
     pagination.classList.add('pagination');
+
   
     for (let i = 1; i <= totalPages; i++) {
       const li = document.createElement('li');
       li.classList.add('page-item');
+      li.id = i.toString() +"_page";
       if (i === currentPage) {
         li.classList.add('active');
       }
@@ -39,6 +41,17 @@ function fetchCSVData(url) {
       button.textContent = i;
       button.classList.add('page-link');
       button.dataset.page = i;
+      button.addEventListener('click', (event) =>{
+        event.preventDefault();
+        table.querySelector('tbody').innerHTML = '';
+        appendRowsToTable(data, table, (i - 1) * limit, limit);
+        for(let j = 1;j<= totalPages;j++){
+            const li_remove = document.getElementById(j.toString()+"_page");
+            li_remove.classList.remove('active');   
+        }
+        const li_active = document.getElementById(i.toString()+"_page");
+        li_active.classList.add('active');
+      })
   
       li.appendChild(button);
       pagination.appendChild(li);
@@ -57,7 +70,9 @@ function fetchCSVData(url) {
       const tr = document.createElement('tr');
       tbody.appendChild(tr);
   
-      Object.keys(row).forEach((key) => {
+      const headers = ['img_src', 'name', 'constituency', 'party' ];
+
+      headers.forEach((key) => {
         const td = document.createElement('td');
         if (key === 'img_src') {
           const img = document.createElement('img');
@@ -85,10 +100,14 @@ function fetchCSVData(url) {
     const headerRow = document.createElement('tr');
     thead.appendChild(headerRow);
   
-    const headers = ['name', 'constituency', 'party', 'img_src'];
+    const headers = ['img_src', 'name', 'constituency', 'party' ];
     headers.forEach((header) => {
       const th = document.createElement('th');
       th.textContent = header;
+      if(header === 'name')th.textContent = 'Name';
+      else if (header === 'constituency')th.textContent = 'Constituency';
+      else if(header === 'party')th.textContent = 'Party';
+      else if(header === 'img_src')th.textContent = '';
       headerRow.appendChild(th);
     });
   
@@ -132,24 +151,23 @@ function fetchCSVData(url) {
         const tableContainer = document.getElementById('table-container');
         tableContainer.appendChild(table);
       
-        const pagination = createPagination(totalPages, currentPage);
+        const pagination = createPagination(totalPages, currentPage, table, data, limit);
         const paginationContainer = document.getElementById('pagination-container');
         paginationContainer.appendChild(pagination);
       
-        pagination.addEventListener('click', (event) => {
-          if (event.target.tagName === 'BUTTON') {
-            currentPage = parseInt(event.target.dataset.page, 10);
+        // pagination.addEventListener('click', (event) => {
+        //   if (event.target.tagName === 'BUTTON') {
+        //     currentPage = parseInt(event.target.dataset.page, 10);
+        //     console.log("Added Event", currentPage)
+        //     // Clear the table rows and add new ones for the current page
+            
       
-            // Clear the table rows and add new ones for the current page
-            table.querySelector('tbody').innerHTML = '';
-            appendRowsToTable(data, table, (currentPage - 1) * limit, limit);
-      
-            // Update the pagination element
-            paginationContainer.innerHTML = '';
-            const updatedPagination = createPagination(totalPages, currentPage);
-            paginationContainer.appendChild(updatedPagination);
-          }
-        });
+        //     // Update the pagination element
+        //     paginationContainer.innerHTML = '';
+        //     const updatedPagination = createPagination(totalPages, currentPage);
+        //     paginationContainer.appendChild(updatedPagination);
+        //   }
+        // });
       });
   });
   
