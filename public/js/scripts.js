@@ -102,12 +102,9 @@ function fetchCSVData(url) {
   
       headers.forEach((header) => {
         const td = document.createElement('td');
-        // console.log(header)
         if (header === 'img_src') {
-            console.log('image header detected ', row )
             const img = document.createElement('img');
             img.src = row["img_src"];
-            // console.log(row.keys())
             img.style.width = '50px';
             img.style.height = 'auto';
             td.appendChild(img);
