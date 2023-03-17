@@ -62,3 +62,48 @@ footer {
     color: #ffffff;
     padding: 1.5rem 0;
 }
+
+
+#table-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  #table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .pagination {
+    display: flex;
+    overflow-x: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    width: 100%;
+  }
+  
+  .page-item {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .page-item.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+  
+  .page-link {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  
