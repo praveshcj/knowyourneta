@@ -131,3 +131,34 @@ footer {
   }
   
   
+  /* Add these styles at the end of your style.css file */
+
+@media (max-width: 767px) {
+    #table-container table {
+      display: block;
+      width: 100%;
+    }
+  
+    #table-container thead,
+    #table-container tbody {
+      display: block;
+      width: 100%;
+    }
+  
+    #table-container tbody tr {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 5px;
+    }
+  
+    #table-container th,
+    #table-container td {
+      display: block;
+      text-align: left;
+    }
+  
+    #table-container th {
+      padding-bottom: 15px;
+    }
+  }
+  
